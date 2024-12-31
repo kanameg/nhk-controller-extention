@@ -2,18 +2,21 @@
 // 上書きするキーのリスト
 const TARGET_KEYS = ['ArrowLeft', 'ArrowRight', 'j', 'l', ' '];
 
-// スペースキー用のパスパターン
-const SPACE_KEY_SELECTORS = [
-    "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_autoplay_blocked > button", // 動画再生前
-    "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.player--cover--message > div:nth-child(2) > button", // 動画終了後
-    "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(3) > button", // 動画再生中
-];
+// グローバル変数として定義
+let SPACE_KEY_SELECTORS = [];
+let LEFT_ARROW_KEY_SELECTORS = [];
+let RIGHT_ARROW_KEY_SELECTORS = [];
 
-// 左矢印キー用のパスパターン 
-const LEFT_ARROW_KEY_SELECTORS = ["#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button"];
-
-// 右矢印キー用のパスパターン
-const RIGHT_ARROW_KEY_SELECTORS = ["#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button"];
+// 設定ファイルを読み込む
+fetch(chrome.runtime.getURL('selectors.json'))
+    .then(response => response.json())
+    .then(config => {
+        SPACE_KEY_SELECTORS = config.SPACE_KEY_SELECTORS;
+        LEFT_ARROW_KEY_SELECTORS = config.LEFT_ARROW_KEY_SELECTORS;
+        RIGHT_ARROW_KEY_SELECTORS = config.RIGHT_ARROW_KEY_SELECTORS;
+        console.log('セレクタ設定ファイルを読み込みました');
+    })
+    .catch(error => console.error('設定ファイルの読み込みエラー:', error));
 
 
 // selectorで指定されたbuttonをクリックする
@@ -46,22 +49,7 @@ document.addEventListener('keydown', function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    // 左矢印キー
-    // key = "ArrowLeft";
-    // path = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button";
-    // if (event.key === key) {
-    //     console.log(`キーが押されました: ${key}`);
-    //     buttonPress(key, path);
-    // }
-
-    // 右矢印キー
-    // key = "ArrowRight";
-    // path = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button";
-    // if (event.key === 'ArrowRight') {
-    //     console.log(`キーが押されました: ${key}`);
-    //     buttonPress(key, path);
-    // }
-
+    // キーに対応するボタンをクリック
     // left arrow キー
     key = 'ArrowLeft';
     if (event.key === key) {

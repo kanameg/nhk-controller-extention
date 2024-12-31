@@ -17,5 +17,9 @@
       "matches": ["https://plus.nhk.jp/watch/*"],
       "js": ["content.js"]
     }
-  ]
+  ],
+  "web_accessible_resources": [{
+    "resources": ["selectors.json"],
+    "matches": ["https://*.nhk.jp/*"]
+  }]
 }
