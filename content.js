@@ -1,6 +1,6 @@
 
 // 上書きするキーのリスト
-const TARGET_KEYS = ['ArrowLeft', 'ArrowRight', 'j', 'l', ' '];
+const TARGET_KEYS = ['ArrowLeft', 'ArrowRight', ' '];
 
 // グローバル変数として定義
 let SPACE_KEY_SELECTORS = [];
