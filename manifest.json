@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "NHK+ keyboard shortcuts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Rewind, fast forward, play and pause NHK+ video with keyboard shortcuts.",
   "permissions": [
     "storage",
@@ -17,9 +17,5 @@
       "matches": ["https://plus.nhk.jp/watch/*"],
       "js": ["content.js"]
     }
-  ],
-  "web_accessible_resources": [{
-    "resources": ["selectors.json"],
-    "matches": ["https://*.nhk.jp/*"]
-  }]
+  ]
 }
