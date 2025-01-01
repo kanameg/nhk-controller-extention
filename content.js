@@ -10,7 +10,7 @@ const AUTHER = 'kaname.g@gmail.com';
  */
 
 // 上書きするキーのリスト
-const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
+const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w'];
 
 // 各ボタンのセレクタ
 const PAUSE_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_autoplay_blocked > button";
@@ -19,6 +19,7 @@ const PLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--pl
 const REPLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(3) > button";
 const REW10_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button";
 const FF30_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button";
+const WEB_FULL_SCREEN_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(5) > button";
 
 
 // selectorで指定されたbuttonをクリックする
@@ -131,6 +132,13 @@ document.addEventListener('keydown', function (event) {
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
         buttonPress(REPLAY_SELECTOR);
+    }
+
+    // ブラウザ内全画面 [WEB_FULL_SCREEN]
+    key = 'w';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        buttonPress(WEB_FULL_SCREEN_SELECTOR);
     }
 });
 
