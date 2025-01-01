@@ -20,7 +20,9 @@ const REPLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--
 const REW10_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button";
 const FF30_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button";
 const WEB_FULL_SCREEN_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(5) > button";
+const WEB_FULL_SCREEN_LIVE_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(4) > button";
 const FULL_SCREEN_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(6) > button";
+const FULL_SCREEN_LIVE_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(5) > button";
 
 
 // selectorで指定されたbuttonをクリックする
@@ -67,6 +69,22 @@ function changeVolume(up) {
     }
 }
 
+// LIVE再生中かどうかを判定
+function isLive() {
+    try {
+        const divElements = document.querySelectorAll("#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div");
+        if (divElements.length === 5) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    catch (error) {
+        console.error('LIVE判定中にエラーが発生しました:', error);
+        return false;
+    }
+}
+
 // keydownイベントリスナーを設定
 document.addEventListener('keydown', function (event) {
     // 対象のキーでない場合は通常の動作を許可
@@ -77,6 +95,8 @@ document.addEventListener('keydown', function (event) {
     // デフォルトのイベントとイベントの伝播を停止
     event.preventDefault();
     event.stopPropagation();
+
+    nowLive = isLive();
 
     // 各キーに対応した処理を分岐
     // 音量アップ [VOL_UP]
@@ -139,14 +159,22 @@ document.addEventListener('keydown', function (event) {
     key = 'w';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
-        buttonPress(WEB_FULL_SCREEN_SELECTOR);
+        if (nowLive) {
+            buttonPress(WEB_FULL_SCREEN_LIVE_SELECTOR);
+        } else {
+            buttonPress(WEB_FULL_SCREEN_SELECTOR);
+        }
     }
 
     // 全画面 [FULL_SCREEN]
     key = 'f';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
-        buttonPress(FULL_SCREEN_SELECTOR);
+        if (nowLive) {
+            buttonPress(FULL_SCREEN_LIVE_SELECTOR);
+        } else {
+            buttonPress(FULL_SCREEN_SELECTOR);
+        }
     }
 });
 
