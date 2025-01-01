@@ -10,7 +10,7 @@ const AUTHER = 'kaname.g@gmail.com';
  */
 
 // 上書きするキーのリスト
-const TARGET_KEYS = ['ArrowLeft', 'ArrowRight', ' '];
+const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
 
 // グローバル変数として定義
 let SPACE_KEY_SELECTORS = [];
@@ -48,6 +48,31 @@ function buttonPress(selector) {
     }
 }
 
+// 音量設定関数
+function changeVolume(up) {
+    try {
+        const videoElement = document.querySelector('video');
+        if (videoElement) {
+            volume = videoElement.volume + up;
+            // 音量の範囲を0から1に制限
+            if (volume > 1) {
+                volume = 1;
+            } else if (volume < 0) {
+                volume = 0;
+            } else {
+                // 小数点第2位で四捨五入
+                volume = Math.round(volume * 100) / 100;
+            }
+            videoElement.volume = volume;
+            console.log(`音量が設定されました: ${volume}`);
+        } else {
+            console.log('ビデオ要素が見つかりませんでした');
+        }
+    } catch (error) {
+        console.error('音量設定中にエラーが発生しました:', error);
+    }
+}
+
 // keydownイベントリスナーを設定
 document.addEventListener('keydown', function (event) {
     // 対象のキーでない場合は通常の動作を許可
@@ -60,6 +85,21 @@ document.addEventListener('keydown', function (event) {
     event.stopPropagation();
 
     // キーに対応するボタンをクリック
+
+    // up arrow キー
+    key = 'ArrowUp';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        changeVolume(0.1);
+    }
+
+    // down arrow キー
+    key = 'ArrowDown';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        changeVolume(-0.1);
+    }
+
     // left arrow キー
     key = 'ArrowLeft';
     if (event.key === key) {
