@@ -9,6 +9,23 @@ const AUTHER = 'kaname.g@gmail.com';
  * @author {AUTHER}
  */
 
+/**
+ * @type {boolean} ショートカットの有効/無効状態
+ */
+let isEnabled = true;
+
+// 設定の初期読み込み
+chrome.storage.sync.get(['enableShortcuts'], (result) => {
+    isEnabled = result.enableShortcuts ?? true;
+});
+
+// 設定変更の監視
+chrome.storage.onChanged.addListener((changes) => {
+    if (changes.enableShortcuts) {
+        isEnabled = changes.enableShortcuts.newValue;
+    }
+});
+
 // 上書きするキーのリスト
 const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
 
@@ -67,6 +84,8 @@ function changeVolume(up) {
 
 // keydownイベントリスナーを設定
 document.addEventListener('keydown', function (event) {
+    if (!isEnabled) return; // 無効時は処理をスキップ
+
     // 対象のキーでない場合は通常の動作を許可
     if (!TARGET_KEYS.includes(event.key)) {
         return true;
