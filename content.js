@@ -12,21 +12,13 @@ const AUTHER = 'kaname.g@gmail.com';
 // 上書きするキーのリスト
 const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '];
 
-// グローバル変数として定義
-let SPACE_KEY_SELECTORS = [];
-let LEFT_ARROW_KEY_SELECTORS = [];
-let RIGHT_ARROW_KEY_SELECTORS = [];
-
-// 設定ファイルを読み込む
-fetch(chrome.runtime.getURL('selectors.json'))
-    .then(response => response.json())
-    .then(config => {
-        SPACE_KEY_SELECTORS = config.SPACE_KEY_SELECTORS;
-        LEFT_ARROW_KEY_SELECTORS = config.LEFT_ARROW_KEY_SELECTORS;
-        RIGHT_ARROW_KEY_SELECTORS = config.RIGHT_ARROW_KEY_SELECTORS;
-        console.log('セレクタ設定ファイルを読み込みました');
-    })
-    .catch(error => console.error('設定ファイルの読み込みエラー:', error));
+// 各ボタンのセレクタ
+const PAUSE_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_autoplay_blocked > button";
+const RESUME_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_autoplay_blocked > button";
+const PLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.player--cover--message > div:nth-child(2) > button";
+const REPLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(3) > button";
+const REW10_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button";
+const FF30_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button";
 
 
 // selectorで指定されたbuttonをクリックする
@@ -84,59 +76,66 @@ document.addEventListener('keydown', function (event) {
     event.preventDefault();
     event.stopPropagation();
 
-    // キーに対応するボタンをクリック
-
-    // up arrow キー
+    // 各キーに対応した処理を分岐
+    // 音量アップ [VOL_UP]
     key = 'ArrowUp';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
         changeVolume(0.1);
     }
 
-    // down arrow キー
+    // 音量ダウン [VOL_DOWN]
     key = 'ArrowDown';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
         changeVolume(-0.1);
     }
 
-    // left arrow キー
+    // 10秒戻る [REW10]
     key = 'ArrowLeft';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
-        for (const selector of LEFT_ARROW_KEY_SELECTORS) {
-            if (buttonPress(selector)) {
-                break;
-            }
-        }
+        buttonPress(REW10_SELECTOR);
     }
 
-    // right arrow キー
+    // 30秒進む [FF30]
     key = 'ArrowRight';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
-        for (const selector of RIGHT_ARROW_KEY_SELECTORS) {
-            if (buttonPress(selector)) {
-                break;
-            }
-        }
+        buttonPress(FF30_SELECTOR);
     }
 
-    // spaceキー
+    // 一時停止 [PAUSE]
     key = ' ';
     if (event.key === key) {
         console.log(`キーが押されました: ${key}`);
-        for (const selector of SPACE_KEY_SELECTORS) {
-            if (buttonPress(selector)) {
-                break;
-            }
-        }
+        buttonPress(PAUSE_SELECTOR);
+    }
+
+    // 再開 [RESUME]
+    key = ' ';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        buttonPress(RESUME_SELECTOR);
+    }
+
+    // 再生開始 [PLAY]
+    key = ' ';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        buttonPress(PLAY_SELECTOR);
+    }
+
+    // もう一度再生 [REPLAY]
+    key = ' ';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        buttonPress(REPLAY_SELECTOR);
     }
 });
 
 // デバッグ用：拡張機能が正常に読み込まれたことを確認
 console.log('キーボードイベントリスナーが設定されました');
-
 
 /**
  * 操作一覧
