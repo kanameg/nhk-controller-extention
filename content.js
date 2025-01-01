@@ -10,7 +10,7 @@ const AUTHER = 'kaname.g@gmail.com';
  */
 
 // 上書きするキーのリスト
-const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w'];
+const TARGET_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'w', 'f'];
 
 // 各ボタンのセレクタ
 const PAUSE_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_autoplay_blocked > button";
@@ -20,6 +20,7 @@ const REPLAY_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--
 const REW10_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(2) > button";
 const FF30_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_overlay > div > div:nth-child(4) > button";
 const WEB_FULL_SCREEN_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(5) > button";
+const FULL_SCREEN_SELECTOR = "#app > div > div.main > div > main > div.stream_panel--player > div > div > div > div.player--inner.none > div > div > div.hls-player_frame > div.hls-player_controller > div > div > div.controls--row.-seekbar > div:nth-child(2) > div:nth-child(6) > button";
 
 
 // selectorで指定されたbuttonをクリックする
@@ -140,6 +141,13 @@ document.addEventListener('keydown', function (event) {
         console.log(`キーが押されました: ${key}`);
         buttonPress(WEB_FULL_SCREEN_SELECTOR);
     }
+
+    // 全画面 [FULL_SCREEN]
+    key = 'f';
+    if (event.key === key) {
+        console.log(`キーが押されました: ${key}`);
+        buttonPress(FULL_SCREEN_SELECTOR);
+    }
 });
 
 // デバッグ用：拡張機能が正常に読み込まれたことを確認
@@ -154,9 +162,9 @@ console.log('キーボードイベントリスナーが設定されました');
 30秒進む[FF30] →
 再開[RESUME] space
 一時停止[PAUSE] space
-LIVE同期[LIVE_SYNC] L
-全画面[FULL_SCREEN] F
-ブラウザ内全画面[WEB_FULL_SCREEN] W
+LIVE同期[LIVE_SYNC] l
+全画面[FULL_SCREEN] f
+ブラウザ内全画面[WEB_FULL_SCREEN] w
 --------------------------------
 
 動画開始前
